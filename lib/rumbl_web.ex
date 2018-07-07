@@ -19,10 +19,11 @@ defmodule RumblWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: RumblWeb
-      import Plug.Conn
-      import RumblWeb.Router.Helpers
-      import RumblWeb.Gettext
+        use Phoenix.Controller, namespace: RumblWeb
+        import Plug.Conn
+        import RumblWeb.Gettext
+        import RumblWeb.Auth, only: [authenticate_user: 2] # New import
+        alias RumblWeb.Router.Helpers, as: Routes
     end
   end
 
@@ -45,9 +46,10 @@ defmodule RumblWeb do
 
   def router do
     quote do
-      use Phoenix.Router
-      import Plug.Conn
-      import Phoenix.Controller
+        use Phoenix.Router
+        import Plug.Conn
+        import Phoenix.Controller
+        import RumblWeb.Auth, only: [authenticate_user: 2] # New import
     end
   end
 
