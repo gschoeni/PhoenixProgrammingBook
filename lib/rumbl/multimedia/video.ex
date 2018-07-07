@@ -2,7 +2,6 @@ defmodule Rumbl.Multimedia.Video do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "videos" do
     field :description, :string
     field :title, :string
