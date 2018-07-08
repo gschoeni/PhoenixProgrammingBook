@@ -5,8 +5,19 @@ defmodule RumblWeb.SessionController do
         render(conn, "new.html")
     end
 
-    def create(conn, %{"session" => %{"email" => email, "password" => pass}}) do
-        case RumblWeb.Auth.login_by_email_and_pass(conn, email, pass) do
+    def create(conn, %{"session" => %{"login" => login, "password" => pass}}) do
+        case RumblWeb.Auth.login_by_username_and_pass(conn, login, pass) do
+            {:ok, conn} ->
+                conn
+                |> put_flash(:info, "Welcome Back!")
+                |> redirect(to: Routes.page_path(conn, :index))
+            _ ->
+                try_login_by_email(conn, login, pass)
+        end
+    end
+
+    defp try_login_by_email(conn, login, pass) do
+        case RumblWeb.Auth.login_by_email_and_pass(conn, login, pass) do
             {:ok, conn} ->
                 conn
                 |> put_flash(:info, "Welcome Back!")
